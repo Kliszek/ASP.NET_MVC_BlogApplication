@@ -27,6 +27,12 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             return View(blogList);
         }
 
+        public IActionResult Manage()
+        {
+            IEnumerable<Blog> blogList = _db.Blogs;
+            return View(blogList);
+        }
+
         public IActionResult Create()
         {
             return View(new Blog { BlogID = "", Title="", OwnerID = HttpContext.Session.GetString("CurrentUser")! });
