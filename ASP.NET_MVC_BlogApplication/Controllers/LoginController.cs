@@ -32,7 +32,8 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             }    
 
             TempData["logged"] = "Logged successfully";
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            HttpContext.Session.SetString("CurrentUser", $"{user.UserID}");
+            return RedirectToRoute(new { controller = "Blog", action = "Recent" });
         }
     }
 }
