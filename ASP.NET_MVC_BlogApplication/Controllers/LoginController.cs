@@ -25,14 +25,17 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 ModelState.AddModelError("UserName", "User with this username does not exist.");
                 return View(user);
             }
-            else if (_db.Users.First( u=> u.UserName == user.UserName ).Password != user.Password)
+
+            User desiredUser = _db.Users.First(u => u.UserName == user.UserName);
+
+            if (desiredUser.Password != user.Password)
             {
                 ModelState.AddModelError("Password", "Provided password is not correct.");
                 return View(user);
             }    
-
+                
             TempData["logged"] = "Logged successfully";
-            HttpContext.Session.SetString("CurrentUser", $"{user.UserID}");
+            HttpContext.Session.SetString("CurrentUser", $"{desiredUser.UserID}");
             return RedirectToRoute(new { controller = "Blog", action = "Recent" });
         }
     }

@@ -7,7 +7,6 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
     public class RegisterController : Controller
     {
         private readonly ApplicationDbContext _db;
-
         public RegisterController(ApplicationDbContext db)
         {
             _db = db;

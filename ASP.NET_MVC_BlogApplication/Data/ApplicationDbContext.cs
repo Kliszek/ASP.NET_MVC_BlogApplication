@@ -9,8 +9,8 @@ namespace ASP.NET_MVC_BlogApplication.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Blog> Blogs{ get; set; }
-        public DbSet<BlogEntry> BlogEntries { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Blog> Blogs { get; set; } = null!;
+        public DbSet<BlogEntry> BlogEntries { get; set; } = null!;
     }
 }

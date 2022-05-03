@@ -13,7 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(5);
+    options.IdleTimeout = TimeSpan.FromSeconds(60);
 });
 
 var app = builder.Build();

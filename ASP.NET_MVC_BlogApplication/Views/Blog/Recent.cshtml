@@ -3,4 +3,43 @@
 *@
 @{
 }
+
+@* if (ViewBag.loggedUserID == null) return; *@
+
 <p>You are logged as @ViewBag.loggedUserID</p>
+
+<section>
+    <div class="row mt-5">
+
+        <div class="col-md-4 col-lg-2">
+            <h4 class="h4 mb-5">
+                Control Panel
+            </h4>
+            <ul class="list-group ">
+                <li class="list-group-item">
+                    <a asp-action="Recent" class="btn btn-outline-primary w-100">
+                        Browse All Blogs
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="btn btn-outline-primary w-100">
+                        Show Your Blogs
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a asp-action="Create" class="btn btn-outline-primary w-100">
+                        Create a new blog
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a class="btn btn-outline-primary w-100">
+                        Manage Blogs
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-lg-10 bg-light">
+            CONTENT
+        </div>
+    </div>
+</section>
