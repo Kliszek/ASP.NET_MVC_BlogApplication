@@ -3,7 +3,7 @@
 *@
 @{
 }
-
+@model IEnumerable<Blog>
 @* if (ViewBag.loggedUserID == null) return; *@
 
 <p>You are logged as @Context.Session.GetString("CurrentUser")</p>
@@ -38,8 +38,23 @@
                 </li>
             </ul>
         </div>
-        <div class="col-md-8 col-lg-10 bg-light">
-            CONTENT
+        <div class="col-md-8 col-lg-10 bg-light bg-opacity-50 row">
+            <div class="col-lg-3">
+                <h3 class="h5 my-4 text-center">
+                    Choose a blog to display:
+                </h3>
+                <div class="list-group my-3">
+                    @foreach(Blog blog in Model)
+                    {
+                        <a asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((string?)ViewData["DisplayedBlogId"]==blog.BlogID ? "active" : "")">
+                            @blog.Title
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-9 bg-light">
+                lalala
+            </div>
         </div>
     </div>
 </section>

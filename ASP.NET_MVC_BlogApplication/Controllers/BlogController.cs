@@ -16,10 +16,15 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             return View();
         }
 
-        public IActionResult Recent()
+        public IActionResult Recent(string? id)
         {
-            //ViewBag.loggedUserID = HttpContext.Session.GetString("CurrentUser");
-            return View();
+            if(id != null)
+            {
+                ViewData["DisplayedBlogId"] = id;
+                ViewData["DisplayedBlogEntries"] = _db.BlogEntries.All(be => be.BlogID == id);
+            }
+            IEnumerable<Blog> blogList = _db.Blogs;
+            return View(blogList);
         }
 
         public IActionResult Create()
