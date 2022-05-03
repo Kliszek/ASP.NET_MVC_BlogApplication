@@ -18,7 +18,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
 
         public IActionResult Recent()
         {
-            ViewBag.loggedUserID = HttpContext.Session.GetString("CurrentUser");
+            //ViewBag.loggedUserID = HttpContext.Session.GetString("CurrentUser");
             return View();
         }
 

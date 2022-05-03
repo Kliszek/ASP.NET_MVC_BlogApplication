@@ -16,6 +16,12 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("CurrentUser");
+            return RedirectToRoute(new { controller = "Home", action = "Index" });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(User user)

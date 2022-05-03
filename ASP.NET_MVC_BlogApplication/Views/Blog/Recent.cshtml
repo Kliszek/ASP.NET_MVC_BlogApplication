@@ -6,7 +6,7 @@
 
 @* if (ViewBag.loggedUserID == null) return; *@
 
-<p>You are logged as @ViewBag.loggedUserID</p>
+<p>You are logged as @Context.Session.GetString("CurrentUser")</p>
 
 <section>
     <div class="row mt-5">
