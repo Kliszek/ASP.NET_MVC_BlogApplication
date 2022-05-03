@@ -5,8 +5,10 @@ namespace ASP.NET_MVC_BlogApplication.Models
     public class BlogEntry
     {
         [Key]
+        [Display(Name = "Blog Entry Unique ID")]
         public string BlogEntryID { get; set; } = Guid.NewGuid().ToString();
         [Required]
+        [Display(Name = "Parent Blog Unique ID")]
         public string BlogID { get; set; } = string.Empty;
         [Required]
         public string Title { get; set; } = "<untitled entry>";

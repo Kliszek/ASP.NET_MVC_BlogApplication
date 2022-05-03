@@ -7,37 +7,32 @@
 @* if (ViewBag.loggedUserID == null) return; *@
 
 <section>
-        <div class="row">
-            <div class="col-md-5 col-lg-3">
+    <h2 class="display-4 my-4 text-center">
+        Add a new blog entry
+    </h2>
+        <div class="row justify-content-between">
+            <div class="col-md-5 col-lg-3 pt-5">
                 <h3 class="h5 my-4 text-center">
-                    Choose a blog you want to edit:
+                    Choose a blog you want to add to:
                 </h3>
-               <div class="list-group my-3">
+               <div id="managedBlogList" class="list-group my-3">
                     @foreach(Blog blog in (IEnumerable<Blog>)ViewData["ManagedBlogs"]!)
                     {
-                        <a asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((string?)ViewData["ManagedBlogId"]==blog.BlogID ? "active" : "")">
+                        <a href="#" @*asp-route-id="@blog.BlogID"*@ data-blogid="@blog.BlogID" class="list-group-item list-group-item-action @((string?)ViewData["ManagedBlogId"]==blog.BlogID ? "active" : "")">
                             @blog.Title
                         </a>
                     }
                 </div>
             </div>
-            <div class="col-md-7 col-lg-9 p-5 text-center">
+            <div class="col-md-7 col-lg-8 p-5 text-center">
                 <h3></h3>
-                <ul class="nav nav-pills pb-3 mb-3 border-bottom border-dark d-flex justify-content-center">
-                    <li class="flex-grow-1 nav-item mx-5">
-                        <button class="nav-link active w-100" data-bs-toggle="pill" data-bs-target="#pills-home" type="button">Add a new entry</button>
-                    </li>
-                    <li class="flex-grow-1 nav-item mx-5">
-                        <button class="nav-link w-100" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button">Delete the blog</button>
-                    </li>
-                </ul>
+
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="pills-home">
                         <div class="text-start">
                             <form method="post">
                                 <div class="mb-4">
                                     <label for="blogid" asp-for="BlogID" class="form-label"></label>
-                                    <input type="text" asp-for="BlogID" class="form-control" id="blogid" placeholder="Your unique blog id...">
+                                    <input type="text" asp-for="BlogID" class="form-control text-muted" id="blogid" readonly placeholder="Your unique blog id... (choose the blog on the left)">
                                     <span asp-validation-for="BlogID" class="text-danger small"></span>
                                 </div>
                         
@@ -64,10 +59,19 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="pills-profile">...</div>
                 </div>
 
             </div>
         </div>
 </section>
+<script>
+    var blogList = document.querySelectorAll("#managedBlogList a");
+    var blogId = document.querySelector("#blogid");
+    blogList.forEach(element => {
+        element.addEventListener("click", () => {
+            blogId.value = element.dataset.blogid;
+            blogList.forEach(el => { el.classList.remove("active"); });
+            element.classList.add("active");
+        })
+    });
+</script>

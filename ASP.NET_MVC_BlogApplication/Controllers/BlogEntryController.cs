@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NET_MVC_BlogApplication.Controllers
 {
-    public class BlogController : Controller
+    public class BlogEntryController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public BlogController(ApplicationDbContext db)
+        public BlogEntryController(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -16,18 +16,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             return View();
         }
 
-        public IActionResult Recent(string? id)
-        {
-            if(id != null)
-            {
-                ViewData["DisplayedBlogId"] = id;
-                ViewData["DisplayedBlogEntries"] = _db.BlogEntries.Where(be => be.BlogID == id);
-            }
-            ViewData["AllBlogs"] = _db.Blogs;
-            return View();
-        }
-
-        public IActionResult Manage(string? id)
+        public IActionResult Create(string? id)
         {
             if (HttpContext.Session.GetString("CurrentUser") == null)
             {
@@ -40,32 +29,25 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             ViewData["ManagedBlogId"] = id;
             string ownerId = HttpContext.Session.GetString("CurrentUser")!;
             ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
-            return View();
-        }
-
-        public IActionResult Create()
-        {
-            ViewData["AllBlogs"] = _db.Blogs;
-            return View(new Blog { BlogID = "", Title="", OwnerID = HttpContext.Session.GetString("CurrentUser")! });
+            return View(new BlogEntry { BlogID = id!, BlogEntryID = "", Title = "", Content="" });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Blog blog)
+        public IActionResult Create(BlogEntry blogEntry)
         {
             if (HttpContext.Session.GetString("CurrentUser") == null)
             {
                 ModelState.AddModelError("CustomError", "Your session has expired.");
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
-            if (HttpContext.Session.GetString("CurrentUser") != blog.OwnerID)
+            if (!_db.Blogs.Any(b => b.BlogID == blogEntry.BlogID))
             {
-                ModelState.AddModelError("OwnerID", "Owner IDs don't match! Did you mess up with it?");
-                return View(blog);
+                ModelState.AddModelError("BlogID", "This blog ID does not exist.");
             }
-            if (_db.Blogs.Any(b => b.BlogID == blog.BlogID))
+            if (_db.BlogEntries.Any(be => be.BlogEntryID == blogEntry.BlogEntryID))
             {
-                ModelState.AddModelError("BlogID", "This blog ID already exists.");
+                ModelState.AddModelError("BlogEntryID", "This blog entry ID already exists.");
             }
             /*if (_db.Blogs.Any(b => b.Title == blog.Title))
             {
@@ -73,12 +55,16 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             }*/
             if (ModelState.IsValid)
             {
-                _db.Add(blog);
+                _db.Add(blogEntry);
                 _db.SaveChanges();
-                return RedirectToAction("Recent");
+                return RedirectToRoute(new { controller = "Blog", action = "Recent", id = blogEntry.BlogID });
             }
+
             ViewData["AllBlogs"] = _db.Blogs;
-            return View(blog);
+            ViewData["ManagedBlogId"] = blogEntry.BlogID;
+            string ownerId = HttpContext.Session.GetString("CurrentUser")!;
+            ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
+            return View(blogEntry);
         }
     }
 }
