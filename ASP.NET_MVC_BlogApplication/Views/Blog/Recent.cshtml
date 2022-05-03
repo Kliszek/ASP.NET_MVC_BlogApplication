@@ -12,14 +12,14 @@
                 <h3 class="h5 my-4 text-center">
                     Choose a blog to display:
                 </h3>
-                <div class="list-group my-3">
+                @*<div class="list-group my-3">
                     @foreach(Blog blog in Model)
                     {
                         <a asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((string?)ViewData["DisplayedBlogId"]==blog.BlogID ? "active" : "")">
                             @blog.Title
                         </a>
                     }
-                </div>
+                </div>*@
             </div>
             <div class="col-md-7 col-lg-9 bg-light">
                 lalala

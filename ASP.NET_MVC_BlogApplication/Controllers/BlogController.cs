@@ -23,18 +23,19 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 ViewData["DisplayedBlogId"] = id;
                 ViewData["DisplayedBlogEntries"] = _db.BlogEntries.All(be => be.BlogID == id);
             }
-            IEnumerable<Blog> blogList = _db.Blogs;
-            return View(blogList);
+            ViewData["AllBlogs"] = _db.Blogs;
+            return View();
         }
 
         public IActionResult Manage()
         {
-            IEnumerable<Blog> blogList = _db.Blogs;
-            return View(blogList);
+            ViewData["AllBlogs"] = _db.Blogs;
+            return View();
         }
 
         public IActionResult Create()
         {
+            ViewData["AllBlogs"] = _db.Blogs;
             return View(new Blog { BlogID = "", Title="", OwnerID = HttpContext.Session.GetString("CurrentUser")! });
         }
 
@@ -66,6 +67,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Recent");
             }
+            ViewData["AllBlogs"] = _db.Blogs;
             return View(blog);
         }
     }

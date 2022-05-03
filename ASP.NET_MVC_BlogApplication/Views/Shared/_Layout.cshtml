@@ -57,18 +57,33 @@
             </div>
         </nav>
     </header>
-    <div class="container-lg">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="mt-md-5 mb-3 col-sm-6 col-md-2 col-lg-2">
-                @if (Context.Session.GetString("CurrentUser") != null)
+            <div class="col-sm-6 col-md-2 col-lg-2">
+                @if(ViewData["AllBlogs"] != null)
                 {
-                    <partial name="_ControlPanel" />
+                    <h3 class="h5 my-4 text-center">
+                        All available blogs:
+                    </h3>
+                    <div class="list-group my-3">
+                        @foreach(Blog blog in (IEnumerable<Blog>)ViewData["AllBlogs"]!)
+                        {
+                            <a asp-controller="Blog" asp-action="Recent" asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((string?)ViewData["DisplayedBlogId"]==blog.BlogID ? "active" : "")">
+                                @blog.Title
+                            </a>
+                        }
+                    </div>
                 }
             </div>
             <main role="main" style="min-height: calc(100vh - 117px);" class="pt-3 px-5 col-sm-12 col-md-8 col-lg-8 bg-light">
                 @RenderBody()
             </main>
-            <div class="col-sm-12 col-md-2 col-lg-2"></div>
+            <div class="col-sm-6 col-md-2 col-lg-2">
+                @if (Context.Session.GetString("CurrentUser") != null)
+                {
+                    <partial name="_ControlPanel" />
+                }
+            </div>
         </div>
     </div>
 
