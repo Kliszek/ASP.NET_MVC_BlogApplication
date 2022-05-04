@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model BlogEntry
+
+<div class="container-sm">
+
+    <div class="row justify-content-center">
+        <div class="col-sm-8 col-lg-6">
+
+            <h2 class="display-4 my-4 text-center">
+                Edit the blog entry
+            </h2>
+
+            <form method="post">
+                <div class="mb-4">
+                    <label for="blogid" asp-for="BlogID" class="form-label"></label>
+                    <input type="text" asp-for="BlogID" class="form-control text-muted" id="blogid" readonly placeholder="Your uinque blog ID...">
+                    <span asp-validation-for="BlogID" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label for="blogentryid" asp-for="BlogEntryID" class="form-label"></label>
+                    <input type="text" asp-for="BlogEntryID" class="form-control text-muted" id="blogentryid" readonly placeholder="Your unique blog entry ID...">
+                    <span asp-validation-for="BlogEntryID" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label for="title" asp-for="Title" class="form-label"></label>
+                    <input type="text" asp-for="Title" class="form-control" id="title" placeholder="Your blog entry title...">
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+                    
+                <div class="mb-4">
+                    <label for="content" asp-for="Content" class="form-label"></label>
+                    <textarea type="text" asp-for="Content" class="form-control" id="content" placeholder="The content of your blog entry..."></textarea>
+                    <span asp-validation-for="Content" class="text-danger small"></span>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-secondary">Update the blog</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

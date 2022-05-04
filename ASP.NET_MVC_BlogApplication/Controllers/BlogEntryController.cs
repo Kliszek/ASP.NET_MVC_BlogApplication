@@ -84,5 +84,49 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             _db.SaveChanges();
             return Content("success");
         }
+
+        public IActionResult Edit(string id)
+        {
+            BlogEntry editedBlog = _db.BlogEntries.Find(id)!;
+
+            ViewData["AllBlogs"] = _db.Blogs;
+            return View(editedBlog);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(BlogEntry blogEntry)
+        {
+            if (HttpContext.Session.GetString("CurrentUser") == null)
+            {
+                ModelState.AddModelError("CustomError", "Your session has expired.");
+                TempData["expired"] = "Your session has expired due to inactivity.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+            if (!_db.Blogs.Any(b => (b.BlogID == blogEntry.BlogID && b.OwnerID == HttpContext.Session.GetString("CurrentUser"))))
+            {
+                ModelState.AddModelError("BlogID", "You don't own a blog with such ID.");
+            }
+            if (!_db.BlogEntries.Any(be => be.BlogEntryID == blogEntry.BlogEntryID))
+            {
+                ModelState.AddModelError("BlogEntryID", "This blog entry ID does not exist.");
+            }
+            /*if (_db.Blogs.Any(b => b.Title == blog.Title))
+            {
+                ModelState.AddModelError("Title", "This blog title already taken.");
+            }*/
+            if (ModelState.IsValid)
+            {
+                BlogEntry beToEdit = _db.BlogEntries.Find(blogEntry.BlogEntryID)!;
+                _db.Entry(beToEdit).CurrentValues.SetValues(blogEntry);
+                _db.SaveChanges();
+                return RedirectToRoute(new { controller = "Blog", action = "Recent", id = blogEntry.BlogID });
+            }
+
+            ViewData["AllBlogs"] = _db.Blogs;
+            ViewData["ManagedBlog"] = _db.Blogs.Find(blogEntry.BlogID);
+            string ownerId = HttpContext.Session.GetString("CurrentUser")!;
+            ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
+            return View(blogEntry);
+        }
     }
 }

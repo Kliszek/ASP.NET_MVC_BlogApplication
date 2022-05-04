@@ -42,7 +42,7 @@
                                             Options
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li><button data-editentryid="@blogEntry.BlogEntryID" class="dropdown-item">Edit</button></li>
+                                            <li><a asp-controller="BlogEntry" asp-action="Edit" asp-route-id="@blogEntry.BlogEntryID" class="dropdown-item">Edit</a></li>
                                             <li><button data-deleteentryid="@blogEntry.BlogEntryID" class="dropdown-item">Delete</button></li>
                                         </ul>
                                     </div>
