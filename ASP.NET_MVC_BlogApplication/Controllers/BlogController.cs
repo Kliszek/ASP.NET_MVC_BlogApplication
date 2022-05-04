@@ -20,7 +20,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
         {
             if(id != null)
             {
-                ViewData["DisplayedBlogId"] = id;
+                ViewData["DisplayedBlog"] = _db.Blogs.Find(id);
                 ViewData["DisplayedBlogEntries"] = _db.BlogEntries.Where(be => be.BlogID == id);
             }
             ViewData["AllBlogs"] = _db.Blogs;

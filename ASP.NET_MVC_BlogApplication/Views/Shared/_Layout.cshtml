@@ -68,8 +68,9 @@
                     <div class="list-group my-3">
                         @foreach(Blog blog in (IEnumerable<Blog>)ViewData["AllBlogs"]!)
                         {
-                            <a asp-controller="Blog" asp-action="Recent" asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((string?)ViewData["DisplayedBlogId"]==blog.BlogID ? "active" : "")">
+                            <a asp-controller="Blog" asp-action="Recent" asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((Blog?)ViewData["DisplayedBlog"]==blog ? "active" : "")">
                                 @blog.Title
+                                <span style="font-size: 0.75rem" class="ps-2 mt-1 pt-1 d-block fst-italic border-top ">by: @blog.OwnerID</span>
                             </a>
                         }
                     </div>

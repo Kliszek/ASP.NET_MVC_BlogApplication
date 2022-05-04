@@ -41,9 +41,9 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 ModelState.AddModelError("CustomError", "Your session has expired.");
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
-            if (!_db.Blogs.Any(b => b.BlogID == blogEntry.BlogID))
+            if (!_db.Blogs.Any(b => (b.BlogID == blogEntry.BlogID && b.OwnerID == HttpContext.Session.GetString("CurrentUser"))))
             {
-                ModelState.AddModelError("BlogID", "This blog ID does not exist.");
+                ModelState.AddModelError("BlogID", "You don't own a blog with such ID.");
             }
             if (_db.BlogEntries.Any(be => be.BlogEntryID == blogEntry.BlogEntryID))
             {
