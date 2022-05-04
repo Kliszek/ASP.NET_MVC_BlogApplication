@@ -7,8 +7,8 @@
 @* if (ViewBag.loggedUserID == null) return; *@
 
 <section>
-        <div class="row">
-            <div class="col-md-5 col-lg-3">
+        <div class="row justify-content-center">
+            @*<div class="col-md-5 col-lg-3">
                 <h3 class="h5 my-4 text-center">
                     Choose a blog to display:
                 </h3>
@@ -19,10 +19,24 @@
                             @blog.Title
                         </a>
                     }
-                </div>*@
-            </div>
+                </div>
+            </div>*@
             <div class="col-md-7 col-lg-9 bg-light">
-                lalala
+                
+                @if(ViewData["DisplayedBlogId"] != null)
+                @foreach(BlogEntry blogEntry in (IEnumerable<BlogEntry>)ViewData["DisplayedBlogEntries"]!)
+                {
+                    <div class="card p-2 w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@blogEntry.Title</h5>
+                            <h6 class="card-subtitle small mb-2 text-muted">posted on @blogEntry.CreatedDate</h6>
+                            <p class="card-text">@blogEntry.Content</p>
+                        </div>
+                    </div>
+                } else
+                {
+                    <p>Choose a blog</p>
+                }
             </div>
         </div>
 </section>
