@@ -16,7 +16,7 @@
                         @( ((Blog)ViewData["DisplayedBlog"]!).Title )
                     </h3>
                     <h5 class="h5 py-3 text-center fst-italic border-bottom">
-                        A blog by: @( ((Blog)ViewData["DisplayedBlog"]!).OwnerID )
+                        A blog by: @( ((Blog)ViewData["DisplayedBlog"]!).OwnerUserName )
                     </h5>
                     @if( ((IEnumerable<BlogEntry>)ViewData["DisplayedBlogEntries"]!).Count() == 0 )
                     {

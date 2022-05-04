@@ -36,7 +36,7 @@
                     <ul class="navbar-nav">
                         @if(Context.Session.GetString("CurrentUser") != null)
                         {
-                            <li class="navbar-text">
+                            <li class="navbar-text me-3">
                                 <span>You are logged as: <i>@Context.Session.GetString("CurrentUser")</i> </span>
                             </li>
                             <li class="nav-item">
@@ -70,7 +70,7 @@
                         {
                             <a asp-controller="Blog" asp-action="Recent" asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((Blog?)ViewData["DisplayedBlog"]==blog ? "active" : "")">
                                 @blog.Title
-                                <span style="font-size: 0.75rem" class="ps-2 mt-1 pt-1 d-block fst-italic border-top ">by: @blog.OwnerID</span>
+                                <span style="font-size: 0.75rem" class="ps-2 mt-1 pt-1 d-block fst-italic border-top ">by: @blog.OwnerUserName</span>
                             </a>
                         }
                     </div>

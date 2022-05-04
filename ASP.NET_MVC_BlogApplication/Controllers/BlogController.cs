@@ -90,7 +90,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             }
 
             ViewData["AllBlogs"] = _db.Blogs;
-            return View(new Blog { BlogID = "", Title="", OwnerID = HttpContext.Session.GetString("CurrentUser")! });
+            return View(new Blog(_db) { BlogID = "", Title="", OwnerID = HttpContext.Session.GetString("CurrentUser")! });
         }
 
         [HttpPost]

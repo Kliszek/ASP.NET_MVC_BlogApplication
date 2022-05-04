@@ -6,6 +6,7 @@ namespace ASP.NET_MVC_BlogApplication.Models
     {
         [Key]
         [Display(Name = "Blog Entry Unique ID")]
+        [StringLength(36, MinimumLength = 3)]
         public string BlogEntryID { get; set; } = Guid.NewGuid().ToString();
         [Required]
         [Display(Name = "Parent Blog Unique ID")]
