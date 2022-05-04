@@ -18,7 +18,7 @@
                     <h5 class="h5 py-3 text-center fst-italic border-bottom">
                         A blog by: @( ((Blog)ViewData["DisplayedBlog"]!).OwnerUserName )
                     </h5>
-                    @if( ((IEnumerable<BlogEntry>)ViewData["DisplayedBlogEntries"]!).Count() == 0 )
+                    @if( !((IEnumerable<BlogEntry>)ViewData["DisplayedBlogEntries"]!).Any() )
                     {
                         <h4 class="h4 text-muted">
                             There are no blog entries in this blog.

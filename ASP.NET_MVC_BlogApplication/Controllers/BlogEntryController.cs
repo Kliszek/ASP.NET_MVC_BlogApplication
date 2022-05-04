@@ -25,11 +25,15 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
-            ViewData["AllBlogs"] = _db.Blogs;
 
-            ViewData["ManagedBlog"] = _db.Blogs.Find(id);
             string ownerId = HttpContext.Session.GetString("CurrentUser")!;
-            ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
+            IEnumerable<Blog> managedBlogs = _db.Blogs.Where(b => b.OwnerID == ownerId);
+
+            if (!managedBlogs.Any())
+                return RedirectToRoute(new { controller = "Blog", action = "Create" });
+
+            ViewData["ManagedBlogs"] = managedBlogs;
+            ViewData["AllBlogs"] = _db.Blogs;
             return View(new BlogEntry { BlogID = id!, BlogEntryID = "", Title = "", Content="" });
         }
 

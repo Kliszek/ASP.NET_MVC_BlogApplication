@@ -36,11 +36,16 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
+            string ownerId = HttpContext.Session.GetString("CurrentUser")!;
+            IEnumerable<Blog> managedBlogs = _db.Blogs.Where(b => b.OwnerID == ownerId);
+
+            if (!managedBlogs.Any())
+                return RedirectToAction("Create");
+
+            ViewData["ManagedBlogs"] = managedBlogs;
+
             ViewData["AllBlogs"] = _db.Blogs;
 
-            string ownerId = HttpContext.Session.GetString("CurrentUser")!;
-            ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
-            
             if (id == null)
                 return View();
             else if (!_db.Blogs.Any(b => (b.BlogID == id && b.OwnerID == HttpContext.Session.GetString("CurrentUser"))))
