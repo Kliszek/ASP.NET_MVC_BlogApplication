@@ -27,10 +27,26 @@
                     @foreach(BlogEntry blogEntry in (IEnumerable<BlogEntry>)ViewData["DisplayedBlogEntries"]!)
                     {
                         <div class="card p-2 w-100">
-                            <div class="card-body">
-                                <h5 class="card-title">@blogEntry.Title</h5>
+                            <div class="card-body position-relative">
+                                <h5 class="card-title">
+                                    @blogEntry.Title
+                                </h5>
+
                                 <h6 class="card-subtitle small mb-2 text-muted">posted on @blogEntry.CreatedDate</h6>
                                 <p class="card-text">@blogEntry.Content</p>
+                                
+                                @if(Context.Session.GetString("CurrentUser") == ((Blog)ViewData["DisplayedBlog"]!).OwnerID)
+                                {
+                                    <div class="dropdown position-absolute m-1 top-0 end-0">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Options
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><button data-editentryid="@blogEntry.BlogEntryID" class="dropdown-item">Edit</button></li>
+                                            <li><button data-deleteentryid="@blogEntry.BlogEntryID" class="dropdown-item">Delete</button></li>
+                                        </ul>
+                                    </div>
+                                }
                             </div>
                         </div>
                     }
@@ -41,3 +57,23 @@
             </div>
         </div>
 </section>
+<script>
+    var deleteButtons = document.querySelectorAll("button[data-deleteentryid]");
+    deleteButtons.forEach( button => {
+        button.addEventListener("click", (e) => {
+            fetch(`/BlogEntry/Delete/${button.dataset.deleteentryid}`, {
+                method: "DELETE",
+                headers: {"ContentType": "text/plain"},
+                credentials: 'include',
+            })
+            .then((response) => {
+                response.text().then( text => {
+                    if(text == "success")
+                        window.location.reload(true);
+                    else
+                        alert(`Error: ${text}`);
+                });
+            });
+        });
+    });
+</script>

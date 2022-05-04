@@ -67,5 +67,22 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
             return View(blogEntry);
         }
+
+        [HttpDelete]
+        public IActionResult Delete(string id)
+        {
+            BlogEntry? beToRemove = _db.BlogEntries.Find(id);
+
+            if (beToRemove == null)
+                return Content("wrongID");
+
+            Blog parentBlog = _db.Blogs.Find(beToRemove.BlogID)!;
+            if (parentBlog.OwnerID != HttpContext.Session.GetString("CurrentUser"))
+                return Content("wrongUser");
+
+            _db.BlogEntries.Remove(beToRemove);
+            _db.SaveChanges();
+            return Content("success");
+        }
     }
 }
