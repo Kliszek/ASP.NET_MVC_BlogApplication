@@ -116,16 +116,14 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             }*/
             if (ModelState.IsValid)
             {
-                BlogEntry beToEdit = _db.BlogEntries.Find(blogEntry.BlogEntryID)!;
-                _db.Entry(beToEdit).CurrentValues.SetValues(blogEntry);
+                //BlogEntry beToEdit = _db.BlogEntries.Find(blogEntry.BlogEntryID)!;
+                //_db.Entry(beToEdit).CurrentValues.SetValues(blogEntry);
+                _db.Update(blogEntry);
                 _db.SaveChanges();
                 return RedirectToRoute(new { controller = "Blog", action = "Recent", id = blogEntry.BlogID });
             }
 
             ViewData["AllBlogs"] = _db.Blogs;
-            ViewData["ManagedBlog"] = _db.Blogs.Find(blogEntry.BlogID);
-            string ownerId = HttpContext.Session.GetString("CurrentUser")!;
-            ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
             return View(blogEntry);
         }
     }
