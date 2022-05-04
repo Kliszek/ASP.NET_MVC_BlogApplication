@@ -43,8 +43,12 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             
             if (id == null)
                 return View();
-            else
-                return View(_db.Blogs.Find(id));
+            else if (!_db.Blogs.Any(b => (b.BlogID == id && b.OwnerID == HttpContext.Session.GetString("CurrentUser"))))
+            {
+                ModelState.AddModelError("BlogID", "You don't own a blog with such ID.");
+                return View();
+            }
+            return View(_db.Blogs.Find(id));
         }
 
         [HttpPost]
@@ -55,6 +59,16 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
                 ModelState.AddModelError("CustomError", "Your session has expired.");
                 TempData["expired"] = "Your session has expired due to inactivity.";
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
+            if (!_db.Blogs.Any(b => (b.BlogID == blog.BlogID && b.OwnerID == HttpContext.Session.GetString("CurrentUser"))))
+            {
+                ModelState.AddModelError("BlogID", "You don't own a blog with such ID.");
+                
+                ViewData["AllBlogs"] = _db.Blogs;
+                string ownerId = HttpContext.Session.GetString("CurrentUser")!;
+                ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
+                return View(blog);
             }
 
             IEnumerable<BlogEntry> beToRemove = _db.BlogEntries.Where(be => be.BlogID == blog.BlogID);
