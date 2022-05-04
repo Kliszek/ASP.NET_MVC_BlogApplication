@@ -13,7 +13,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Recent");
         }
 
         public IActionResult Recent(string? id)
@@ -27,7 +27,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             return View();
         }
 
-        public IActionResult Manage(string? id)
+        public IActionResult Delete(string? id)
         {
             if (HttpContext.Session.GetString("CurrentUser") == null)
             {
@@ -38,10 +38,32 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
 
             ViewData["AllBlogs"] = _db.Blogs;
 
-            ViewData["ManagedBlogId"] = id;
             string ownerId = HttpContext.Session.GetString("CurrentUser")!;
             ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
-            return View();
+            
+            if (id == null)
+                return View();
+            else
+                return View(_db.Blogs.Find(id));
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Blog blog)
+        {
+            if (HttpContext.Session.GetString("CurrentUser") == null)
+            {
+                ModelState.AddModelError("CustomError", "Your session has expired.");
+                TempData["expired"] = "Your session has expired due to inactivity.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
+            IEnumerable<BlogEntry> beToRemove = _db.BlogEntries.Where(be => be.BlogID == blog.BlogID);
+            foreach(BlogEntry be in beToRemove)
+                _db.BlogEntries.Remove(be);
+            _db.Blogs.Remove(blog);
+            _db.SaveChanges();
+
+            return RedirectToAction("Recent");
         }
 
         public IActionResult Create()

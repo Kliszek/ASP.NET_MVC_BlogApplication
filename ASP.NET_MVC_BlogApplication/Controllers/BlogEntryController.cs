@@ -26,7 +26,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
 
             ViewData["AllBlogs"] = _db.Blogs;
 
-            ViewData["ManagedBlogId"] = id;
+            ViewData["ManagedBlog"] = _db.Blogs.Find(id);
             string ownerId = HttpContext.Session.GetString("CurrentUser")!;
             ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
             return View(new BlogEntry { BlogID = id!, BlogEntryID = "", Title = "", Content="" });
@@ -62,7 +62,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             }
 
             ViewData["AllBlogs"] = _db.Blogs;
-            ViewData["ManagedBlogId"] = blogEntry.BlogID;
+            ViewData["ManagedBlog"] = _db.Blogs.Find(blogEntry.BlogID);
             string ownerId = HttpContext.Session.GetString("CurrentUser")!;
             ViewData["ManagedBlogs"] = _db.Blogs.Where(b => b.OwnerID == ownerId);
             return View(blogEntry);
