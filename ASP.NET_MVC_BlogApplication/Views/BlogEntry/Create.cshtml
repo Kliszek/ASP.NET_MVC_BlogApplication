@@ -27,39 +27,42 @@
             <div class="col-md-7 col-lg-8 p-5 text-center">
                 <h3></h3>
 
-                <div class="tab-content">
-                        <div class="text-start">
-                            <form method="post">
-                                <div class="mb-4">
-                                    <label for="blogid" asp-for="BlogID" class="form-label"></label>
-                                    <input type="text" asp-for="BlogID" class="form-control text-muted" id="blogid" readonly placeholder="Your unique blog id... (choose the blog on the left)">
-                                    <span asp-validation-for="BlogID" class="text-danger small"></span>
-                                </div>
+                    <div class="text-start">
+                        <form method="post">
+                            <div class="mb-4">
+                                <label for="blogid" asp-for="BlogID" class="form-label"></label>
+                                <input type="text" asp-for="BlogID" class="form-control text-muted" id="blogid" readonly placeholder="Your unique blog id... (choose the blog on the left)">
+                                <span asp-validation-for="BlogID" class="text-danger small"></span>
+                            </div>
                         
-                                <div class="mb-4">
-                                    <label for="blogentryid" asp-for="BlogEntryID" class="form-label"></label>
-                                    <input type="text" asp-for="BlogEntryID" class="form-control" id="blogentryid" placeholder="Your unique blog entry id...">
-                                    <span asp-validation-for="BlogEntryID" class="text-danger small"></span>
+                            <div class="mb-4">
+                                <label for="blogentryid" asp-for="BlogEntryID" class="form-label"></label>
+                                <div class="input-group">
+                                    <input type="text" asp-for="BlogEntryID" class="form-control input-group-field" id="blogentryid" placeholder="Your unique blog entry id...">
+                                    <div class="input-group-append">
+                                        <button style="border-radius: 0 .25rem .25rem 0;" class="btn btn-secondary" id="autogenerate" type="button">Generate</button>
+                                    </div>
                                 </div>
+                                <span asp-validation-for="BlogEntryID" class="text-danger small"></span>
+                            </div>
 
-                                <div class="mb-4">
-                                    <label for="title" asp-for="Title" class="form-label"></label>
-                                    <input type="text" asp-for="Title" class="form-control" id="title" placeholder="Your blog entry title...">
-                                    <span asp-validation-for="Title" class="text-danger small"></span>
-                                </div>
+                            <div class="mb-4">
+                                <label for="title" asp-for="Title" class="form-label"></label>
+                                <input type="text" asp-for="Title" class="form-control" id="title" placeholder="Your blog entry title...">
+                                <span asp-validation-for="Title" class="text-danger small"></span>
+                            </div>
 
-                                <div class="mb-4">
-                                    <label for="content" asp-for="Content" class="form-label"></label>
-                                    <textarea asp-for="Content" class="form-control" id="content" placeholder="The content of your blog entry..."></textarea>
-                                    <span asp-validation-for="Content" class="text-danger small"></span>
-                                </div>
+                            <div class="mb-4">
+                                <label for="content" asp-for="Content" class="form-label"></label>
+                                <textarea asp-for="Content" class="form-control" id="content" placeholder="The content of your blog entry..."></textarea>
+                                <span asp-validation-for="Content" class="text-danger small"></span>
+                            </div>
 
-                                <div class="text-center mt-4">
-                                    <button type="submit" class="btn btn-secondary">Create a new entry</button>
-                                </div>
-                            </form>
-                        </div>
-                </div>
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-secondary">Create a new entry</button>
+                            </div>
+                        </form>
+                    </div>
 
             </div>
         </div>
@@ -72,6 +75,22 @@
             blogId.value = element.dataset.blogid;
             blogList.forEach(el => { el.classList.remove("active"); });
             element.classList.add("active");
+        })
+    });
+
+    var autogenerate = document.querySelector("#autogenerate");
+    var blogEntryId = document.querySelector("#blogentryid");
+    document.querySelector("#autogenerate").addEventListener("click", () => {
+        console.log("clicked");
+        fetch("/Home/GenerateGuid", {
+            method: "GET",
+            headers: { "Content-Type": "text/plain" },
+            credentials: 'include'
+        })
+        .then((response) => {
+            response.text().then( text => {
+                blogEntryId.value = text;
+            })
         })
     });
 </script>

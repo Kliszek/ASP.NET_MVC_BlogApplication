@@ -28,5 +28,10 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult GenerateGuid()
+        {
+            return Content(Guid.NewGuid().ToString(), "text/plain");
+        }
     }
 }

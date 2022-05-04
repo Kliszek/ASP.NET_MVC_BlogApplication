@@ -2,41 +2,60 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @model Blog
-@{
-    <div class="container-sm">
 
-        <div class="row justify-content-center">
-            <div class="col-sm-8 col-lg-6">
+<div class="container-sm">
 
-                <h2 class="display-4 my-4 text-center">
-                    Create a new blog
-                </h2>
+    <div class="row justify-content-center">
+        <div class="col-sm-8 col-lg-6">
 
-                <form method="post">
-                    <div class="mb-4">
-                        <label for="blogid" asp-for="BlogID" class="form-label"></label>
+            <h2 class="display-4 my-4 text-center">
+                Create a new blog
+            </h2>
+
+            <form method="post">
+                <div class="mb-4">
+                    <label for="blogid" asp-for="BlogID" class="form-label"></label>
+                    <div class="input-group">
                         <input type="text" asp-for="BlogID" class="form-control" id="blogid" placeholder="Your unique blog id...">
-                        <span asp-validation-for="BlogID" class="text-danger small"></span>
+                        <div class="input-group-append">
+                            <button style="border-radius: 0 .25rem .25rem 0;" class="btn btn-secondary" id="autogenerate" type="button">Generate</button>
+                        </div>
                     </div>
+                    <span asp-validation-for="BlogID" class="text-danger small"></span>
+                </div>
 
-                    <div class="mb-4">
-                        <label for="title" asp-for="Title" class="form-label"></label>
-                        <input type="text" asp-for="Title" class="form-control" id="title" placeholder="Your blog title...">
-                        <span asp-validation-for="Title" class="text-danger small"></span>
-                    </div>
+                <div class="mb-4">
+                    <label for="title" asp-for="Title" class="form-label"></label>
+                    <input type="text" asp-for="Title" class="form-control" id="title" placeholder="Your blog title...">
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
                     
-                    <div class="mb-4">
-                        <label for="ownerid" asp-for="OwnerID" class="form-label"></label>
-                        <input type="text" asp-for="OwnerID" class="form-control text-muted" readonly id="ownerid">
-                        <span asp-validation-for="OwnerID" class="text-danger small"></span>
-                    </div>
+                <div class="mb-4">
+                    <label for="ownerid" asp-for="OwnerID" class="form-label"></label>
+                    <input type="text" asp-for="OwnerID" class="form-control text-muted" readonly id="ownerid">
+                    <span asp-validation-for="OwnerID" class="text-danger small"></span>
+                </div>
 
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-secondary">Create a new blog</button>
-                    </div>
-                </form>
-            </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-secondary">Create a new blog</button>
+                </div>
+            </form>
         </div>
-
     </div>
-}
+
+</div>
+<script>
+    var blogId = document.querySelector("#blogid");
+    document.querySelector("#autogenerate").addEventListener("click", () => {
+        fetch("/Home/GenerateGuid", {
+            method: "GET",
+            headers: { "Content-Type": "text/plain" },
+            credentials: 'include'
+        })
+        .then((response) => {
+            response.text().then( text => {
+                blogId.value = text;
+            })
+        })
+    });
+</script>
