@@ -1,8 +1,12 @@
 ﻿@if(TempData["logged"]!=null)
 {
-    <h2>@TempData["logged"]</h2>
+    <h3 class="h3 text-success">@TempData["logged"]</h3>
 }
 @if(TempData["registered"]!=null)
 {
-    <h2>@TempData["registered"]</h2>
+    <h3 class="h3 text-success">@TempData["registered"]</h3>
+}
+@if(TempData["expired"]!=null)
+{
+    <h3 class="h3 text-success">@TempData["expired"]</h3>
 }

@@ -39,6 +39,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             if (HttpContext.Session.GetString("CurrentUser") == null)
             {
                 ModelState.AddModelError("CustomError", "Your session has expired.");
+                TempData["expired"] = "Your session has expired due to inactivity.";
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
             if (!_db.Blogs.Any(b => (b.BlogID == blogEntry.BlogID && b.OwnerID == HttpContext.Session.GetString("CurrentUser"))))
