@@ -13,6 +13,10 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
         }
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("CurrentUser") != null)
+            {
+                return RedirectToRoute(new { controller = "Blog", action = "Recent" });
+            }
             return View();
         }
 
@@ -20,7 +24,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(User user)
         {
-            if(user.Password != user.PasswordR)
+            if (user.Password != user.PasswordR)
             {
                 ModelState.AddModelError("PasswordR", "The passwords do not match.");
             }

@@ -21,6 +21,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             if (HttpContext.Session.GetString("CurrentUser") == null)
             {
                 ModelState.AddModelError("CustomError", "Your session has expired.");
+                TempData["expired"] = "Your session has expired due to inactivity.";
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
@@ -87,6 +88,18 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
 
         public IActionResult Edit(string id)
         {
+            if(id == null)
+            {
+                return RedirectToRoute(new { controller = "Blog", action = "Recent" });
+            }
+
+            if (HttpContext.Session.GetString("CurrentUser") == null)
+            {
+                ModelState.AddModelError("CustomError", "Your session has expired.");
+                TempData["expired"] = "Your session has expired due to inactivity.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
             BlogEntry editedBlog = _db.BlogEntries.Find(id)!;
 
             ViewData["AllBlogs"] = _db.Blogs;
