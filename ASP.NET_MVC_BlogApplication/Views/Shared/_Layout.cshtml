@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ASP.NET_MVC_BlogApplication</title>
+    <title>@ViewData["Title"] - ASP.NET MVC Blog App</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ASP.NET_MVC_BlogApplication.styles.css" asp-append-version="true" />
@@ -13,7 +13,7 @@
     <header style="height:56px">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ASP.NET_MVC_BlogApplication</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ASP.NET MVC Blog App</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,13 +23,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Recent">Browse Blogs</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                         @if(Context.Session.GetString("CurrentUser") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Manage">Manage your blogs</a>
+                                <a class="nav-link text-dark d-none d-lg-inline-block" asp-area="" asp-controller="Blog" asp-action="Create">Create a new blog</a>
                             </li>
                         }
                     </ul>
@@ -59,7 +56,17 @@
     </header>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-sm-6 col-md-2 col-lg-2">
+            <div class="order-lg-last col-sm-8 col-md-3 col-lg-2">
+                @if (Context.Session.GetString("CurrentUser") != null)
+                {
+                    <partial name="_ControlPanel" />
+                }
+            </div>
+            <main role="main" style="min-height: calc(100vh - 117px);" class="pt-3 px-5 pb-5 col-sm-12 col-md-9 col-lg-8 bg-light">
+                <partial name="_Notifications" />
+                @RenderBody()
+            </main>
+            <div class="order-lg-first col-sm-8 col-md-8 col-lg-2">
                 @if(ViewData["AllBlogs"] != null)
                 {
                     <h3 class="h5 my-4 text-center">
@@ -74,16 +81,6 @@
                             </a>
                         }
                     </div>
-                }
-            </div>
-            <main role="main" style="min-height: calc(100vh - 117px);" class="pt-3 px-5 pb-5 col-sm-12 col-md-8 col-lg-8 bg-light">
-                <partial name="_Notifications" />
-                @RenderBody()
-            </main>
-            <div class="col-sm-6 col-md-2 col-lg-2">
-                @if (Context.Session.GetString("CurrentUser") != null)
-                {
-                    <partial name="_ControlPanel" />
                 }
             </div>
         </div>

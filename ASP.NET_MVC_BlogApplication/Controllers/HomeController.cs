@@ -15,7 +15,8 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToRoute(new { controller = "Blog", action = "Recent" });
+            //return View();
         }
 
         public IActionResult Privacy()
