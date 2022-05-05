@@ -16,7 +16,7 @@ namespace ASP.NET_MVC_BlogApplication.Models
         [NotMapped]
         public string? OwnerUserName {
             get {
-                if(this._ownerUserName == "<unknown>")
+                if(_db != null && this._ownerUserName == "<unknown>")
                 {
                     this._ownerUserName = this.OwnerID == "" ? "<unknown>" : _db.Users.Find(this.OwnerID)!.UserName!;
                 }
@@ -27,7 +27,8 @@ namespace ASP.NET_MVC_BlogApplication.Models
         public string Title { get; set; } = "<untitled blog>";
 
         [NotMapped]
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext? _db;
+        public Blog() { }
         public Blog(ApplicationDbContext db)
         {
             _db = db;

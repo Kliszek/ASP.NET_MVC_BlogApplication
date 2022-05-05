@@ -30,7 +30,11 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             IEnumerable<Blog> managedBlogs = _db.Blogs.Where(b => b.OwnerID == ownerId);
 
             if (!managedBlogs.Any())
+            {
+                TempData["createFirst"] = "You have to create a blog first!";
                 return RedirectToRoute(new { controller = "Blog", action = "Create" });
+            }
+
 
             ViewData["ManagedBlogs"] = managedBlogs;
             ViewData["AllBlogs"] = _db.Blogs;
