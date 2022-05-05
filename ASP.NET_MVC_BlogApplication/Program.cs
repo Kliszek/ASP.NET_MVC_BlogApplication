@@ -39,4 +39,9 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "Error",
+    pattern: "{*url}",
+    new { controller = "Home", action = "Http404" });
+
 app.Run();

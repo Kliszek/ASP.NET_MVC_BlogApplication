@@ -13,7 +13,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Create");
         }
 
         public IActionResult Create(string? id)

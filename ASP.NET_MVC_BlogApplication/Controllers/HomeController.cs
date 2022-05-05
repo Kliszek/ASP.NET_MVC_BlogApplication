@@ -1,4 +1,5 @@
-﻿using ASP.NET_MVC_BlogApplication.Models;
+﻿using ASP.NET_MVC_BlogApplication.Data;
+using ASP.NET_MVC_BlogApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -19,6 +20,10 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             //return View();
         }
 
+        public IActionResult Http404()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
