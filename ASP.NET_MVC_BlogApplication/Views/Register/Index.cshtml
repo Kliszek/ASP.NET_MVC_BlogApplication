@@ -2,50 +2,70 @@
     ViewData["Title"] = "Register";
 }
 @model User
-@{
 
-    <div class="row justify-content-center">
-        <div class="col-sm-8 col-md-6 col-xl-4">
+<div class="row justify-content-center">
+    <div class="col-sm-8 col-md-6 col-xl-4">
 
-            <h2 class="display-4 my-5 text-center">
-                Register
-            </h2>
+        <h2 class="display-4 my-5 text-center">
+            Register
+        </h2>
 
-            <form method="post">
-                <div class="mb-4">
-                    <label for="userid" asp-for="UserID" class="form-label"></label>
+        <form method="post">
+            <div class="mb-4">
+                <label for="userid" asp-for="UserID" class="form-label"></label>
+                <div class="input-group">
                     <input type="text" asp-for="UserID" class="form-control" id="userid" placeholder="Your unique user id...">
-                    <span asp-validation-for="UserID" class="text-danger small"></span>
+                    <div class="input-group-append">
+                        <button style="border-radius: 0 .25rem .25rem 0;" class="btn btn-secondary" id="autogenerate" type="button">Generate</button>
+                    </div>
                 </div>
+                <span asp-validation-for="UserID" class="text-danger small"></span>
+            </div>
 
-                <div class="mb-4">
-                    <label for="email" asp-for="Email" class="form-label"></label>
-                    <input type="email" asp-for="Email" class="form-control" id="email" placeholder="Your email address...">
-                    <span asp-validation-for="Email" class="text-danger small"></span>
-                </div>
+            <div class="mb-4">
+                <label for="email" asp-for="Email" class="form-label"></label>
+                <input type="email" asp-for="Email" class="form-control" id="email" placeholder="Your email address...">
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
 
-                <div class="mb-4">
-                    <label for="username" asp-for="UserName" class="form-label"></label>
-                    <input type="text" asp-for="UserName" class="form-control" id="username" placeholder="Your username...">
-                    <span asp-validation-for="UserName" class="text-danger small"></span>
-                </div>
+            <div class="mb-4">
+                <label for="username" asp-for="UserName" class="form-label"></label>
+                <input type="text" asp-for="UserName" class="form-control" id="username" placeholder="Your username...">
+                <span asp-validation-for="UserName" class="text-danger small"></span>
+            </div>
 
-                <div class="mb-4">
-                    <label for="password" asp-for="Password" class="form-label"></label>
-                    <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Your password...">
-                    <span asp-validation-for="Password" class="text-danger small"></span>
-                </div>
+            <div class="mb-4">
+                <label for="password" asp-for="Password" class="form-label"></label>
+                <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Your password...">
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
 
-                <div class="mb-4">
-                    <label for="password-2" asp-for="PasswordR" class="form-label">Confirm your password...</label>
-                    <input type="password" asp-for="PasswordR" class="form-control" id="password-2" placeholder="Confirm your password...">
-                    <span asp-validation-for="PasswordR" class="text-danger small"></span>
-                </div>
+            <div class="mb-4">
+                <label for="password-2" asp-for="PasswordR" class="form-label">Confirm your password...</label>
+                <input type="password" asp-for="PasswordR" class="form-control" id="password-2" placeholder="Confirm your password...">
+                <span asp-validation-for="PasswordR" class="text-danger small"></span>
+            </div>
 
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-secondary">Create a new account</button>
-                </div>
-            </form>
-        </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-secondary">Create a new account</button>
+            </div>
+        </form>
     </div>
-}
+</div>
+<script>
+    var autogenerate = document.querySelector("#autogenerate");
+    var userId = document.querySelector("#userid");
+    document.querySelector("#autogenerate").addEventListener("click", () => {
+        console.log("clicked");
+        fetch("/Home/GenerateGuid", {
+            method: "GET",
+            headers: { "Content-Type": "text/plain" },
+            credentials: 'include'
+        })
+        .then((response) => {
+            response.text().then( text => {
+                userId.value = text;
+            })
+        })
+    });
+</script>
