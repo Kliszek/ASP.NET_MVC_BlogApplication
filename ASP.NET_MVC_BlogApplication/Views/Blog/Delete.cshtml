@@ -16,7 +16,7 @@
                     Choose a blog you want to delete:
                 </h3>
                <div id="managedBlogList" class="list-group my-3">
-                    @foreach(Blog blog in (IEnumerable<Blog>)ViewData["ManagedBlogs"]!)
+                    @foreach(Blog blog in ((IEnumerable<Blog>)ViewData["ManagedBlogs"]!).ToArray<Blog>().Reverse())
                     {
                         <a asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @(Model==blog ? "active" : "")">
                             @blog.Title

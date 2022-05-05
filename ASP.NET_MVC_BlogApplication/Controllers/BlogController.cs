@@ -21,7 +21,7 @@ namespace ASP.NET_MVC_BlogApplication.Controllers
             if(id != null)
             {
                 ViewData["DisplayedBlog"] = _db.Blogs.Find(id);
-                ViewData["DisplayedBlogEntries"] = _db.BlogEntries.Where(be => be.BlogID == id);
+                ViewData["DisplayedBlogEntries"] = _db.BlogEntries.Where(be => be.BlogID == id).OrderByDescending(be => be.CreatedDate);
             }
             ViewData["AllBlogs"] = _db.Blogs;
             return View();

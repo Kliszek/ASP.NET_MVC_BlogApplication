@@ -66,7 +66,7 @@
                         All available blogs:
                     </h3>
                     <div class="list-group my-3">
-                        @foreach(Blog blog in (IEnumerable<Blog>)ViewData["AllBlogs"]!)
+                        @foreach(Blog blog in ((IEnumerable<Blog>)ViewData["AllBlogs"]!).ToArray<Blog>().Reverse())
                         {
                             <a asp-controller="Blog" asp-action="Recent" asp-route-id="@blog.BlogID" class="list-group-item list-group-item-action @((Blog?)ViewData["DisplayedBlog"]==blog ? "active" : "")">
                                 @blog.Title

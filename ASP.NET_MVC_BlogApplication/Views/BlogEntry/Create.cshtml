@@ -16,7 +16,7 @@
                     Choose a blog you want to add to:
                 </h3>
                <div id="managedBlogList" class="list-group my-3">
-                    @foreach(Blog blog in (IEnumerable<Blog>)ViewData["ManagedBlogs"]!)
+                    @foreach(Blog blog in ((IEnumerable<Blog>)ViewData["ManagedBlogs"]!).ToArray<Blog>().Reverse())
                     {
                         <a href="#" @*asp-route-id="@blog.BlogID"*@ data-blogid="@blog.BlogID" class="list-group-item list-group-item-action @((Blog?)ViewData["ManagedBlog"]==blog ? "active" : "")">
                             @blog.Title
